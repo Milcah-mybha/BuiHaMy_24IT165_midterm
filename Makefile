@@ -1,5 +1,5 @@
 CC ?= cc
-CFLAGS ?= -std=c11 -D_DEFAULT_SOURCE -D_NETBSD_SOURCE -Wall -Wextra -Wpedantic -O2
+CFLAGS += -std=c11 -D_DEFAULT_SOURCE -D_NETBSD_SOURCE -Wall -Wextra -Wpedantic -O2
 OBJ = main.o options.o listing.o format.o sort.o
 
 all: myls

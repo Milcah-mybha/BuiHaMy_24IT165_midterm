@@ -4,39 +4,49 @@
 
 **Ngôn ngữ:** C (C11)
 
-`myls` là chương trình dòng lệnh mô phỏng một phần lệnh UNIX `ls(1)` theo manual được cung cấp trong bài tập. Chương trình liệt kê file và thư mục, hỗ trợ hiển thị thông tin chi tiết, sắp xếp và duyệt đệ quy.
+**Môi trường chạy:** NetBSD 10.1
 
-## Cách tải và chạy
+`myls` là chương trình dòng lệnh mô phỏng một phần lệnh UNIX `ls(1)` theo manual của bài tập. Chương trình liệt kê file và thư mục, hỗ trợ xem thông tin chi tiết, sắp xếp và duyệt đệ quy.
 
-Cần máy NetBSD 10.1 hoặc Linux có trình biên dịch C và `make`. Tải repository về, mở Terminal tại thư mục dự án rồi chạy:
+## Tải và chạy trên NetBSD
+
+Máy cần có `cc`, `make` và kết nối Internet. **Không cần cài Git**: mở Terminal trong NetBSD và chạy lần lượt:
+
+```sh
+ftp -o midterm.tar.gz https://github.com/Milcah-mybha/BuiHaMy_24IT165_midterm/archive/refs/heads/main.tar.gz
+tar -xzf midterm.tar.gz
+cd BuiHaMy_24IT165_midterm-main
+make
+./myls -la testdir
+```
+
+Sau `make`, file thực thi `myls` được tạo ngay trong thư mục dự án. Lệnh cuối liệt kê các file mẫu trong `testdir`, gồm cả file ẩn và thông tin chi tiết. Chạy `./myls` không kèm đường dẫn để liệt kê thư mục hiện tại.
+
+Nếu máy đã có Git, có thể thay ba lệnh tải và giải nén ở trên bằng:
 
 ```sh
 git clone https://github.com/Milcah-mybha/BuiHaMy_24IT165_midterm.git
 cd BuiHaMy_24IT165_midterm
-make
-./myls
 ```
-
-Nếu đã tải dự án dưới dạng ZIP, giải nén rồi mở Terminal trong thư mục chứa `Makefile`; chỉ cần chạy `make` và `./myls`.
 
 ## Ví dụ sử dụng
 
 ```sh
-./myls testdir          # Liệt kê nội dung testdir
-./myls -a testdir       # Hiện cả file ẩn
-./myls -l testdir       # Hiện thông tin chi tiết
-./myls -la testdir      # Kết hợp -l và -a
-./myls -R testdir       # Liệt kê cả thư mục con
-./myls -S testdir       # Sắp xếp theo kích thước giảm dần
+./myls testdir        # Liệt kê nội dung testdir
+./myls -a testdir     # Hiện cả file ẩn
+./myls -l testdir     # Hiện thông tin chi tiết
+./myls -R testdir     # Liệt kê cả thư mục con
+./myls -S testdir     # Sắp xếp theo kích thước giảm dần
 ```
 
-Cú pháp: `./myls [tùy_chọn] [đường_dẫn ...]`. Nếu không nhập đường dẫn, chương trình liệt kê thư mục hiện tại. Các tùy chọn được hỗ trợ: `-A -a -c -d -F -f -h -i -k -l -n -q -R -r -S -s -t -u -w`.
+Cú pháp: `./myls [tùy_chọn] [đường_dẫn ...]`. Các tùy chọn được hỗ trợ: `-A -a -c -d -F -f -h -i -k -l -n -q -R -r -S -s -t -u -w`.
 
-## Kiểm tra và dọn file biên dịch
+## Kiểm thử và dọn file biên dịch
+
+Trong thư mục dự án, chạy:
 
 ```sh
-make test     # Chạy bộ kiểm thử; thành công khi hiện "All smoke tests passed."
-make clean    # Xóa chương trình và các file sinh ra khi biên dịch
+make test
 ```
 
-Chương trình đã chạy bộ kiểm thử trên Linux và được kiểm tra cú pháp với header của NetBSD 10.1. Nếu dùng máy ảo NetBSD, hãy chạy `make clean`, `make`, `make test` trong máy ảo để kiểm tra trực tiếp. File thực thi `myls` và các file `.o` được tạo bởi `make`, không cần tải riêng.
+Kết quả thành công là `All smoke tests passed.` Chương trình đã được biên dịch và kiểm thử trên NetBSD 10.1. Dùng `make clean` để xóa file thực thi và các file `.o`; sau đó chạy `make` nếu muốn biên dịch lại.
