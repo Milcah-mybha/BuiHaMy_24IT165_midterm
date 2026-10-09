@@ -2,7 +2,7 @@
 
 **Sinh viên:** Bùi Hà My  
 **Mã sinh viên:** 24IT165  
-**Ngôn ngữ:** C (chuẩn C11)  
+**Ngôn ngữ:** C++
 **Tài liệu tham chiếu:** trang manual NetBSD `ls(1)` được cung cấp trong đề bài.
 
 ## 1. Giới thiệu
