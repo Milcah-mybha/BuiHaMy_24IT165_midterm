@@ -7,7 +7,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/sysmacros.h>
+#ifdef __linux__
+#include <sys/sysmacros.h> /* Linux defines major() and minor() here. */
+#else
+#include <sys/types.h>     /* NetBSD defines major() and minor() here. */
+#endif
 #include <time.h>
 #include <unistd.h>
 
@@ -58,6 +62,12 @@ void human_size(uintmax_t n, char *buf, size_t len)
 
 static void mode_string(mode_t m, char out[11])
 {
+#ifdef __NetBSD__
+    if (m & S_ARCH1) out[0] = 'a';
+    else if (m & S_ARCH2) out[0] = 'A';
+    else if (S_ISWHT(m)) out[0] = 'w';
+    else
+#endif
     out[0] = S_ISDIR(m) ? 'd' : S_ISLNK(m) ? 'l' : S_ISCHR(m) ? 'c' :
              S_ISBLK(m) ? 'b' : S_ISFIFO(m) ? 'p' : S_ISSOCK(m) ? 's' : '-';
     const mode_t bits[] = {S_IRUSR,S_IWUSR,S_IXUSR,S_IRGRP,S_IWGRP,S_IXGRP,S_IROTH,S_IWOTH,S_IXOTH};
@@ -115,6 +125,9 @@ void print_entry(const Entry *e, const Options *o)
         char mark = S_ISDIR(e->st.st_mode) ? '/' : S_ISLNK(e->st.st_mode) ? '@' :
                     S_ISSOCK(e->st.st_mode) ? '=' : S_ISFIFO(e->st.st_mode) ? '|' :
                     (e->st.st_mode & 0111) ? '*' : 0;
+#ifdef __NetBSD__
+        if (S_ISWHT(e->st.st_mode)) mark = '%';
+#endif
         if (mark) putchar(mark);
     }
     if (o->long_format && S_ISLNK(e->st.st_mode)) {

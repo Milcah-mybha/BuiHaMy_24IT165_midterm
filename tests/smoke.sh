@@ -2,9 +2,9 @@
 # Integration checks against a temporary directory, independent of the host's files.
 set -eu
 
-project=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+project=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 fixture=$(mktemp -d)
-trap 'rm -rf -- "$fixture"' EXIT HUP INT TERM
+trap 'rm -rf "$fixture"' EXIT HUP INT TERM
 
 mkdir "$fixture/sub"
 printf 'a' > "$fixture/a"
